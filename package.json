@@ -1,0 +1,29 @@
+{
+  "name": "meteorology-api",
+  "version": "1.0.0",
+  "description": "Api in typescript for forecasting sea wave conditions for surfing",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "yarn build && node dist/code/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdserafini/meteorology-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gdserafini/meteorology-api/issues"
+  },
+  "homepage": "https://github.com/gdserafini/meteorology-api#readme",
+  "devDependencies": {
+    "@types/module-alias": "^2.0.1",
+    "@types/node": "^18.14.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.2"
+  }
+}
