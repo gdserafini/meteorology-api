@@ -9,7 +9,7 @@ describe('StormGlass client', () => {
     it('should return the normalized forecast from the StormGlass service', async () => {
 
         axios.get = jest.fn().mockResolvedValue(
-            stormglass_weather_3_hour);
+            {data: stormglass_weather_3_hour});
 
         const stormGlass = new StormGlass(axios);
         //lat, lon
