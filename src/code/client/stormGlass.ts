@@ -73,7 +73,7 @@ export class StormGlass{
         const response = await this.request.get<StormGlassForestResponse>(
             `https://api.stormglass.io/v2/weather/point?params=${this.stormGlassApiParams}&source=${this.stormGlassApiSource}&lat=${lat}&lng=${lng}`,
         {headers: {
-            'Authorization': '74c90b50-b1f2-11ed-92e6-0242ac130002-74c90c18-b1f2-11ed-92e6-0242ac130002'
+            Authorization: '74c90b50-b1f2-11ed-92e6-0242ac130002-74c90c18-b1f2-11ed-92e6-0242ac130002'
         }});
 
         return this.normalizeResponse(response['data']);
