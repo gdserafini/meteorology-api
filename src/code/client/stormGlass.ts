@@ -1,4 +1,5 @@
-import { AxiosStatic } from "axios";
+import { InternalError } from "@src/util/errors/internal-error";
+import { AxiosStatic, AxiosError } from "axios";
 
 export interface StormGlassPointSource{
     [key: string]: number;
@@ -28,6 +29,22 @@ export interface ForecastPoint{
     readonly swellPeriod: number;
     readonly windDirection: number;
     readonly windSpeed: number;
+}
+
+export class ClientRequestError extends InternalError{
+    constructor(message: string){
+
+        const internalMessage = 'Unexpected error';
+        super(`${internalMessage}: ${message}`);
+    }
+}
+
+export class StormGlassError extends InternalError{
+    constructor(message: string){
+
+        const internalMessage = 'Unexpected error returned';
+        super(`${internalMessage}: ${message}`);
+    }
 }
 
 export class StormGlass{
@@ -70,12 +87,27 @@ export class StormGlass{
     public async fetchPoints(lat: number, lng: number): 
         Promise<ForecastPoint[]>{
             
-        const response = await this.request.get<StormGlassForestResponse>(
-            `https://api.stormglass.io/v2/weather/point?params=${this.stormGlassApiParams}&source=${this.stormGlassApiSource}&lat=${lat}&lng=${lng}`,
-        {headers: {
-            Authorization: '74c90b50-b1f2-11ed-92e6-0242ac130002-74c90c18-b1f2-11ed-92e6-0242ac130002'
-        }});
+        try{
+            const response = await this.request.get<StormGlassForestResponse>(
+                `https://api.stormglass.io/v2/weather/point?params=${this.stormGlassApiParams}&source=${this.stormGlassApiSource}&lat=${lat}&lng=${lng}`,
+            {headers: {
+                Authorization: '74c90b50-b1f2-11ed-92e6-0242ac130002-74c90c18-b1f2-11ed-92e6-0242ac130002'
+            }});
 
-        return this.normalizeResponse(response['data']);
+            return this.normalizeResponse(response['data']);
+        }
+        catch(error: unknown){
+            if((error as AxiosError).response && 
+                (error as AxiosError).response?.data){
+
+                throw new StormGlassError(
+                    `Error: ${JSON.stringify(
+                        (error as AxiosError).response?.data)} Code: ${
+                            (error as AxiosError).response?.status
+                        }.`);
+            }
+
+            throw new ClientRequestError((error as Error).message);
+        }
     }
 }
