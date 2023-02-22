@@ -1,6 +1,7 @@
 import { InternalError } from "@src/util/errors/internal-error";
-import { AxiosStatic, AxiosError } from "axios";
+import { /*AxiosStatic*/ AxiosError } from "axios";
 import config, {IConfig} from 'config';
+import * as HttpUtil from '@src/util/request';
 
 export interface StormGlassPointSource{
     [key: string]: number;
@@ -55,7 +56,7 @@ export class StormGlass{
     readonly stormGlassApiParams = 'swellDirection%2CswellHeight%2CswellPeriod%2CwaveDirection%2CwaveHeight%2CwindDirection%2CwindSpeed';
     readonly stormGlassApiSource = 'noaa';
     
-    constructor(protected request: AxiosStatic){}
+    constructor(protected request = new HttpUtil.Request()){}
 
     private isValidPoint(point: Partial<StormGlassPoint>): boolean{
         return !!(
@@ -102,8 +103,7 @@ export class StormGlass{
             return this.normalizeResponse(response['data']);
         }
         catch(error: unknown){
-            if((error as AxiosError).response && 
-                (error as AxiosError).response?.data){
+            if(HttpUtil.Request.isRequestError(error as AxiosError)){
 
                 throw new StormGlassError(
                     `Error: ${JSON.stringify(
