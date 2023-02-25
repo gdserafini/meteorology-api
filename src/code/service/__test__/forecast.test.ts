@@ -25,49 +25,58 @@ describe('Forecast service', () => {
 
       const expectedResponse = [
         {
-          lat: -33.792726,
-          lng: 151.289824,
-          name: 'Manly',
-          position: 'E',
-          rating: 1,
-          "swellDirection": 200.88,
-          "swellHeight": 0.3,
-          "swellPeriod": 6.6,
-          "time": "2023-02-21T00:00:00+00:00",
-          "waveDirection": 199.95,
-          "waveHeight": 0.46,
-          "windDirection": 356.65,
-          "windSpeed": 3.03
+          time: "2023-02-21T00:00:00+00:00",
+          forecast: [{
+            lat: -33.792726,
+            lng: 151.289824,
+            name: 'Manly',
+            position: 'E',
+            rating: 1,
+            "swellDirection": 200.88,
+            "swellHeight": 0.3,
+            "swellPeriod": 6.6,
+            "time": "2023-02-21T00:00:00+00:00",
+            "waveDirection": 199.95,
+            "waveHeight": 0.46,
+            "windDirection": 356.65,
+            "windSpeed": 3.03
+          }]
         },
         {
-          lat: -33.792726,
-          lng: 151.289824,
-          name: 'Manly',
-          position: 'E',
-          rating: 1,
-          "swellDirection": 198.8,
-          "swellHeight": 0.24,
-          "swellPeriod": 7.05,
-          "time": "2023-02-21T01:00:00+00:00",
-          "waveDirection": 195.09,
-          "waveHeight": 0.39,
-          "windDirection": 6.13,
-          "windSpeed": 2.68
+          time: "2023-02-21T01:00:00+00:00",
+          forecast: [{
+            lat: -33.792726,
+            lng: 151.289824,
+            name: 'Manly',
+            position: 'E',
+            rating: 1,
+            "swellDirection": 198.8,
+            "swellHeight": 0.24,
+            "swellPeriod": 7.05,
+            "time": "2023-02-21T01:00:00+00:00",
+            "waveDirection": 195.09,
+            "waveHeight": 0.39,
+            "windDirection": 6.13,
+            "windSpeed": 2.68
+          }]
         },
         {
-          lat: -33.792726,
-          lng: 151.289824,
-          name: 'Manly',
-          position: 'E',
-          rating: 1,
-          "swellDirection": 196.71,
-          "swellHeight": 0.17,
-          "swellPeriod": 7.49,
-          "time": "2023-02-21T02:00:00+00:00",
-          "waveDirection": 190.23,
-          "waveHeight": 0.33,
-          "windDirection": 15.62,
-          "windSpeed": 2.33
+          time: "2023-02-21T02:00:00+00:00",
+          forecast: [{
+            lat: -33.792726,
+            lng: 151.289824,
+            name: 'Manly',
+            position: 'E',
+            rating: 1,
+            "swellDirection": 196.71,
+            "swellHeight": 0.17,
+            "swellPeriod": 7.49,
+            "time": "2023-02-21T02:00:00+00:00",
+            "waveDirection": 190.23,
+            "waveHeight": 0.33,
+            "windDirection": 15.62,
+            "windSpeed": 2.33
+          }]
         }
       ];
 
