@@ -48,6 +48,21 @@ export class Forecast{
             return byTime;
     }
 
+    private enricheData(
+        points: ForecastPoint[], beach: Beach): BeachForcast[]{
+
+            return points.map((e) => ({
+                ...{
+                    lat: beach.lat,
+                    lng: beach.lng,
+                    name: beach.name,
+                    position: beach.position,
+                    rating: 1
+                },
+                ...e
+            }));
+        }
+
     public async processForecastForBeaches(
         beaches: Beach[]): Promise<TimeForecast[]>{
         
@@ -58,16 +73,7 @@ export class Forecast{
                 const points = await this.stormGlass.fetchPoints(
                     b.lat, b.lng);
 
-                const enriched = points.map((e) => ({
-                    ...{
-                        lat: b.lat,
-                        lng: b.lng,
-                        name: b.name,
-                        position: b.position,
-                        rating: 1
-                    },
-                    ...e
-                }));
+                const enriched = this.enricheData(points, b);
 
                 pointsWithCorrectSources.push(...enriched);
             }
