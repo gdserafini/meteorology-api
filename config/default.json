@@ -1,5 +1,8 @@
 {
     "App": {
+      "database": {
+        "mongourl": "mongodb://localhost:27017/meteorology-api"
+      },
       "resources": {
         "StormGlass": {
           "apiUrl": "https://api.stormglass.io/v2",
