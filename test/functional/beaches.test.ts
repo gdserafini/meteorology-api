@@ -12,7 +12,7 @@ describe('Beaches functional tests', () => {
             };
 
             const response = await global.testRequest
-                .post('/beaches')
+                .post('/v1/beaches')
                 .send(newBeach);
 
             expect(response.status).toBe(201);
