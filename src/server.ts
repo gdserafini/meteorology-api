@@ -1,8 +1,8 @@
-import { Server,  } from '@overnightjs/core';
+import './util/module-alias';
+import { Server } from '@overnightjs/core';
 import bodyParser from 'body-parser';
 import { Application } from 'express';
 //import { ForcastController } from './code/controller/forcast.controller';
-import './util/module-alias';
 import * as db from '@src/util/database';
 //import { BeachesController } from '@src/code/controller/beaches';
 import { ApiController } from '@src/api.controller';
@@ -44,5 +44,11 @@ export class SetupServer extends Server {
 
   public async close(): Promise<void>{
     await db.close();
+  }
+
+  public start(): void{
+    this.app.listen(this.port, () => {
+      console.log(`Server running on port: ${this.port}`);
+    })
   }
 }
