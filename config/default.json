@@ -4,6 +4,10 @@
       "database": {
         "mongoUrl": "mongodb://localhost:27017/meteorology-api"
       },
+      "auth": {
+        "key": "some-key",
+        "tokenExpiresIn": 9999999999
+      },
       "resources": {
         "StormGlass": {
           "apiUrl": "https://api.stormglass.io/v2",
