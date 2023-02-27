@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import AuthService from '@src/code/service/auth';
 
 export interface User {
   _id?: string;
@@ -40,5 +42,15 @@ schema.path('email').validate(
   'already exists in the data base.',
   CustomValidation.DUPLICATED
 );
+
+schema.pre<User>('save', async function (): Promise<void> {
+  if (!this.password) return;
+  try {
+    const hashedPassword = await AuthService.hashPassword(this.password);
+    this.password = hashedPassword;
+  } catch (err) {
+    console.error(`Error hashing the password for the user ${this.name}`, err);
+  }
+});
 
 export const User = mongoose.model<User>('User', schema);
