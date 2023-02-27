@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 import AuthService from '@src/code/service/auth';
 
 export interface User {
