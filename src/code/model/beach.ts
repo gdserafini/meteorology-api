@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 
 export enum GeoPosition {
-  S = 'S', E = 'E', W = 'W', N = 'N',
+  S = 'S',
+  E = 'E',
+  W = 'W',
+  N = 'N',
 }
 
 export interface Beach {
@@ -21,7 +24,7 @@ const schema = new mongoose.Schema(
     lng: { type: Number, required: true },
     name: { type: String, required: true },
     position: { type: String, required: true },
-    },
+  },
   {
     toJSON: {
       transform: (_, ret): void => {
