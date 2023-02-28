@@ -12,6 +12,7 @@ export interface Beach {
   position: GeoPosition;
   lat: number;
   lng: number;
+  user: string;
 }
 
 export interface ExistingBeach extends Beach {
