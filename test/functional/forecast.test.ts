@@ -2,20 +2,29 @@ import { Beach, GeoPosition } from '@src/code/model/beach';
 import nock from 'nock';
 import stormglass_weather_3_hour from '@test/fixtures/stormglass_weather_3_hour.json';
 import api_forecast_response_1_beach from '@test/fixtures/api_forecast_response_1_beach.json';
+import { User } from '@src/code/model/user';
+import AuthService from '@src/code/service/auth';
 
 describe('Beach forecast functional tests', () => {
+  const defaultUser = {
+    name: 'name',
+    email: 'email@email.com',
+    password: 'password',
+  };
+  let token: string;
   beforeEach(async () => {
     await Beach.deleteMany({});
-
+    await User.deleteMany({});
+    const user = await new User(defaultUser).save();
     const defaultBeach = {
       lat: -33.792726,
       lng: 151.289824,
       name: 'Manly',
       position: GeoPosition.E,
+      user: user.id,
     };
-
-    const beach = new Beach(defaultBeach);
-    await beach.save();
+    await new Beach(defaultBeach).save();
+    token = AuthService.generateToken(user.toJSON());
   });
 
   it('Should return a forecast with just a few times', async () => {
@@ -35,7 +44,9 @@ describe('Beach forecast functional tests', () => {
       })
       .reply(200, stormglass_weather_3_hour);
 
-    const { body, status } = await global.testRequest.get('/v1/forecast');
+    const { body, status } = await global.testRequest
+      .get('/v1/forecast')
+      .set({ 'x-access-token': token });
     expect(status).toBe(200);
     expect(body).toEqual(api_forecast_response_1_beach);
   });
@@ -55,7 +66,9 @@ describe('Beach forecast functional tests', () => {
       })
       .replyWithError('Something went wrong');
 
-    const { status } = await global.testRequest.get('/v1/forecast');
+    const { status } = await global.testRequest
+      .get('/v1/forecast')
+      .set({ 'x-access-token': token });
     expect(status).toBe(500);
   });
 });
