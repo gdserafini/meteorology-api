@@ -2,6 +2,7 @@ import { ClassMiddleware, Controller, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Beach } from '@src/code/model/beach';
 import { authMiddleware } from '../middleware/auth';
+import logger from '@src/util/logger';
 //import  mongoose from "mongoose";
 
 @Controller('beaches')
@@ -18,6 +19,7 @@ export class BeachesController {
 
       res.status(201).send(result);
     } catch (error) {
+      logger.error(error);
       res.status(500).send({ error: (error as Error).message });
     }
   }

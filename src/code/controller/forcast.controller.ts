@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Forecast } from '@src/code/service/forecast';
 import { Beach } from '../model/beach';
 import { authMiddleware } from '../middleware/auth';
+import logger from '@src/util/logger';
 
 const forecast = new Forecast();
 
@@ -23,6 +24,7 @@ export class ForcastController {
           )
         );
     } catch (error) {
+      logger.error(error);
       res.status(500).send({ error: 'Something went wrong' });
     }
   }

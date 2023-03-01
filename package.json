@@ -13,7 +13,7 @@
     "style:fix": "prettier --write 'src/**/*.ts' 'test/**/*.ts'",
     "test:functional": "jest --projects ./test --runInBand",
     "test:unit": "jest",
-    "test": "yarn test:unit && yarn test:functional"
+    "test": "yarn test:unit && yarn test:functional | pino-pretty -c"
   },
   "repository": {
     "type": "git",
