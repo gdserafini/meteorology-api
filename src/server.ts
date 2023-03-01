@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import { Application } from 'express';
 import * as db from '@src/util/database';
 import { ApiController } from '@src/api.controller';
+import logger from '@src/util/logger';
 
 export class SetupServer extends Server {
   constructor(private port = 3000) {
@@ -38,7 +39,7 @@ export class SetupServer extends Server {
 
   public start(): void {
     this.app.listen(this.port, () => {
-      console.log(`Server running on port: ${this.port}`);
+      logger.info('Server running on port: ' + this.port);
     });
   }
 }
