@@ -15,13 +15,10 @@ describe('Beach forecast functional tests', () => {
   };
   let token: string;
   let server: SetupServer;
-  beforeAll(async () => {
+  beforeEach(async () => {
     server = new SetupServer();
     await server.init();
     global.testRequest = supertest(server.getApp());
-  });
-  afterAll(async () => await server.close());
-  beforeEach(async () => {
     await Beach.deleteMany({});
     await User.deleteMany({});
     const user = await new User(defaultUser).save();
@@ -35,6 +32,7 @@ describe('Beach forecast functional tests', () => {
     await new Beach(defaultBeach).save();
     token = AuthService.generateToken(user.toJSON());
   });
+  afterEach(async () => await server.close());
 
   it('Should return a forecast with just a few times', async () => {
     nock('https://api.stormglass.io:443', {

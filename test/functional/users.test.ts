@@ -5,16 +5,13 @@ import { SetupServer } from '@src/server';
 
 describe('Users functional tests', () => {
   let server: SetupServer;
-  beforeAll(async () => {
+  beforeEach(async () => {
     server = new SetupServer();
     await server.init();
     global.testRequest = supertest(server.getApp());
-  });
-  afterAll(async () => await server.close());
-  beforeEach(async () => {
     await User.deleteMany({});
   });
-
+  afterEach(async () => await server.close());
   describe('When creating a new user', () => {
     it('should successfully create a new user', async () => {
       const newUser = {
@@ -46,7 +43,8 @@ describe('Users functional tests', () => {
       expect(response.status).toBe(422);
       expect(response.body).toEqual({
         code: 422,
-        error: 'User validation failed: name: Path `name` is required.',
+        error: 'Unprocessable Entity',
+        message: 'User validation failed: name: Path `name` is required.',
       });
     });
 
@@ -62,7 +60,8 @@ describe('Users functional tests', () => {
       expect(response.status).toBe(409);
       expect(response.body).toEqual({
         code: 409,
-        error:
+        error: 'Conflict',
+        message:
           'User validation failed: email: already exists in the data base.',
       });
     });
