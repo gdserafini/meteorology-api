@@ -32,4 +32,4 @@ jobs:
       run: yarn --frozen-lockfile
 
     - name: Run all tests
-      run: yarn test:dev
+      run: yarn test
