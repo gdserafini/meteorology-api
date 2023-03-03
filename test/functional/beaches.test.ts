@@ -1,6 +1,8 @@
 import { Beach } from '@src/code/model/beach';
 import { User } from '@src/code/model/user';
 import AuthService from '@src/code/service/auth';
+import { SetupServer } from '@src/server';
+import supertest from 'supertest';
 
 describe('Beaches functional tests', () => {
   const defaultUser = {
@@ -9,6 +11,13 @@ describe('Beaches functional tests', () => {
     password: 'password',
   };
   let token: string;
+  let server: SetupServer;
+  beforeAll(async () => {
+    server = new SetupServer();
+    await server.init();
+    global.testRequest = supertest(server.getApp());
+  });
+  afterAll(async () => await server.close());
   beforeEach(async () => {
     await Beach.deleteMany({});
     await User.deleteMany({});

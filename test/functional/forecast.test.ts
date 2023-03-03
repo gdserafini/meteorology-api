@@ -4,6 +4,8 @@ import stormglass_weather_3_hour from '@test/fixtures/stormglass_weather_3_hour.
 import api_forecast_response_1_beach from '@test/fixtures/api_forecast_response_1_beach.json';
 import { User } from '@src/code/model/user';
 import AuthService from '@src/code/service/auth';
+import supertest from 'supertest';
+import { SetupServer } from '@src/server';
 
 describe('Beach forecast functional tests', () => {
   const defaultUser = {
@@ -12,6 +14,13 @@ describe('Beach forecast functional tests', () => {
     password: 'password',
   };
   let token: string;
+  let server: SetupServer;
+  beforeAll(async () => {
+    server = new SetupServer();
+    await server.init();
+    global.testRequest = supertest(server.getApp());
+  });
+  afterAll(async () => await server.close());
   beforeEach(async () => {
     await Beach.deleteMany({});
     await User.deleteMany({});

@@ -8,7 +8,8 @@ const root = path.resolve(__dirname);
 export default {
   rootDir: root,
   displayName: 'root-tests',
-  testMatch: ['<rootDir>/src/**/*.test.ts'],
+  testMatch: ['<rootDir>/src/**/*.test.ts', 
+    "<rootDir>/test/**/*.test.ts"],
   testEnvironment: 'node',
   clearMocks: true,
   preset: 'ts-jest',

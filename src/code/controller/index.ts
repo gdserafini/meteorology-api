@@ -2,6 +2,7 @@ import { Response } from 'express';
 import mongoose from 'mongoose';
 import { CustomValidation } from '../model/user';
 import logger from '@src/util/logger';
+import ApiError, { APIError } from '@src/util/errors/api-error';
 
 export abstract class BaseController {
   protected sendCreatedUpdateErrorResponse(
@@ -21,19 +22,32 @@ export abstract class BaseController {
       });
 
       if (duplicatedErrors.length) {
-        res.status(409).send({
-          code: 409,
-          error: err.message,
-        });
+        res.status(409).send(
+          ApiError.format({
+            code: 409,
+            message: err.message,
+          })
+        );
       } else {
-        res.status(422).send({
-          code: 422,
-          error: err.message,
-        });
+        res.status(422).send(
+          ApiError.format({
+            code: 422,
+            message: err.message,
+          })
+        );
       }
     } else {
       logger.error(err);
-      res.status(500).send({ error: 'Internal server error' });
+      res.status(500).send(
+        ApiError.format({
+          code: 500,
+          message: 'Internal server error',
+        })
+      );
     }
+  }
+
+  protected sendErrorResponse(res: Response, apiError: APIError): Response {
+    return res.status(apiError.code).send(ApiError.format(apiError));
   }
 }
