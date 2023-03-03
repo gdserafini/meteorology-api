@@ -1,9 +1,10 @@
-import { Controller, Post } from '@overnightjs/core';
+import { Controller, Post, Get, Middleware } from '@overnightjs/core';
 import { Response, Request } from 'express';
 import { User } from '@src/code/model/user';
 import { BaseController } from '.';
 import mongoose from 'mongoose';
 import AuthService from '../service/auth';
+import { authMiddleware } from '../middleware/auth';
 
 @Controller('users')
 export class UserController extends BaseController {
@@ -42,5 +43,18 @@ export class UserController extends BaseController {
     return res.status(200).send({
       token: token,
     });
+  }
+
+  @Get('me')
+  @Middleware(authMiddleware)
+  public async me(req: Request, res: Response): Promise<Response> {
+    const email = req.decoded ? req.decoded.email : undefined;
+    const user = await User.findOne({ email });
+    if (!user)
+      return this.sendErrorResponse(res, {
+        code: 404,
+        message: 'User not found!',
+      });
+    return res.status(200).send({ user });
   }
 }
