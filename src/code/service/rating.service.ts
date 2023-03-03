@@ -1,4 +1,5 @@
-import { Beach, GeoPosition } from '../model/beach';
+import { ForecastPoint } from '../client/stormGlass';
+import { Beach, GeoPosition } from '@src/code/model/beach';
 
 const waveHeights = {
   ankleToKnee: {
@@ -19,8 +20,8 @@ export class Rating {
   constructor(private beach: Beach) {}
 
   public getRatingWindPosition(
-    wavePosition: GeoPosition,
-    windPosition: GeoPosition
+    wavePosition: string,
+    windPosition: string
   ): number {
     if (wavePosition === windPosition) return 1;
     if (this.isOffShore(wavePosition, windPosition)) return 5;
@@ -59,10 +60,21 @@ export class Rating {
     return GeoPosition.W;
   }
 
-  private isOffShore(
-    wavePosition: GeoPosition,
-    windPosition: GeoPosition
-  ): boolean {
+  public getRateForPoint(point: ForecastPoint): number {
+    const swellDirection = this.getPositionFromLocation(point.swellDirection);
+    const windDirection = this.getPositionFromLocation(point.windDirection);
+    const windWaveRating = this.getRatingWindPosition(
+      swellDirection,
+      windDirection
+    );
+    const swellHeightRating = this.getRatingForSwellSize(point.swellHeight);
+    const swellPeriodRating = this.getRatingForSwellPeriod(point.swellPeriod);
+    return Math.round(
+      (windWaveRating + swellHeightRating + swellPeriodRating) / 3
+    );
+  }
+
+  private isOffShore(wavePosition: string, windPosition: string): boolean {
     return (
       (wavePosition === GeoPosition.N &&
         windPosition === GeoPosition.S &&
