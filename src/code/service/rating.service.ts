@@ -51,6 +51,14 @@ export class Rating {
     return 1;
   }
 
+  public getPositionFromLocation(position: number): string {
+    if ((position >= 0 && position < 45) || (position > 315 && position <= 360))
+      return GeoPosition.N;
+    if (position >= 45 && position < 135) return GeoPosition.E;
+    if (position >= 135 && position < 225) return GeoPosition.S;
+    return GeoPosition.W;
+  }
+
   private isOffShore(
     wavePosition: GeoPosition,
     windPosition: GeoPosition

@@ -81,4 +81,31 @@ describe('Rating service unit tests', () => {
       expect(rating).toBe(5);
     });
   });
+
+  describe('Get position based on points location', () => {
+    it('should get the point based on a east location', () => {
+      const response = defaultRating.getPositionFromLocation(92);
+      expect(response).toBe(GeoPosition.E);
+    });
+
+    it('should get the point based on a north location 1', () => {
+      const response = defaultRating.getPositionFromLocation(360);
+      expect(response).toBe(GeoPosition.N);
+    });
+
+    it('should get the point based on a north location 2', () => {
+      const response = defaultRating.getPositionFromLocation(40);
+      expect(response).toBe(GeoPosition.N);
+    });
+
+    it('should get the point based on a south location', () => {
+      const response = defaultRating.getPositionFromLocation(200);
+      expect(response).toBe(GeoPosition.S);
+    });
+
+    it('should get the point based on a west location', () => {
+      const response = defaultRating.getPositionFromLocation(300);
+      expect(response).toBe(GeoPosition.W);
+    });
+  });
 });
