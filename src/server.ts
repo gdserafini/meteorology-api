@@ -5,6 +5,7 @@ import { Application } from 'express';
 import * as db from '@src/util/database';
 import { ApiController } from '@src/api.controller';
 import logger from '@src/util/logger';
+import cors from 'cors';
 
 export class SetupServer extends Server {
   constructor(private port = 3000) {
@@ -13,11 +14,16 @@ export class SetupServer extends Server {
 
   private setupExpress(): void {
     this.app.use(bodyParser.json());
-    this.setupControllers();
+    this.app.use(
+      cors({
+        origin: '*',
+      })
+    );
   }
 
   public async init(): Promise<void> {
     this.setupExpress();
+    this.setupControllers();
     await this.dbSetup();
   }
 
