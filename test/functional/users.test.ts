@@ -33,17 +33,17 @@ describe('Users functional tests', () => {
       );
     });
 
-    it('should return 422 when there a validation error', async () => {
+    it('should return 400 when there a validation error', async () => {
       const newUser = {
         email: 'email@email.com',
         password: 'password',
       };
 
       const response = await global.testRequest.post('/v1/users').send(newUser);
-      expect(response.status).toBe(422);
+      expect(response.status).toBe(400);
       expect(response.body).toEqual({
-        code: 422,
-        error: 'Unprocessable Entity',
+        code: 400,
+        error: 'Bad Request',
         message: 'User validation failed: name: Path `name` is required.',
       });
     });

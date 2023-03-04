@@ -29,9 +29,9 @@ export abstract class BaseController {
           })
         );
       } else {
-        res.status(422).send(
+        res.status(400).send(
           ApiError.format({
-            code: 422,
+            code: 400,
             message: err.message,
           })
         );
